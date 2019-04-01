@@ -1,0 +1,61 @@
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import TestJsxCom from './test.js';
+import OtherComponent from './FnCom';
+
+import "./App.css";
+
+
+const TargetCom = React.forwardRef((props, ref) => (
+  <input type="text" ref={ref} />
+));
+class App extends Component {
+  constructor(props) {
+    console.log('App constuctor')
+    super(props);
+    this.myRef = React.createRef();
+    this.state = {
+      childContext: "123",
+      newContext: "456"
+    };
+  }
+  componentDidMount() {
+    console.log('App');
+    setTimeout(() => {
+      this.myRef.current.value = "wuyaoke";
+      console.log(this.comA.target);
+    }, 1500);
+  }
+  render() {
+    console.log("React--->", React);
+    return [
+      <div className="App" key='a'>
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <OtherComponent />
+          <p>
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+          <a
+            ref={e => (this.comA = e)}
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+          <TargetCom ref={this.myRef} />
+          {[1, 2, 3, 4, 5].map(item => (
+            <React.Fragment key={item}>
+              <span>{item}</span>
+            </React.Fragment>
+          ))}
+          <TestJsxCom />
+        </header>
+      </div>
+    ];
+  }
+}
+
+export default App;

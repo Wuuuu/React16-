@@ -40,3 +40,67 @@ render() {
 Fragment可以简写成<></>,<></> 语法不能接受键值或属性。
 
 #### 16.3.0 (2018.3.29)
+
+新增`React.createRef()`修改了refs的使用方法,`React.forwardRef()` API
+
+
+###### React.createRef()的使用：
+```
+class App extends Component {
+  constructor(props) {
+    super(props);
+    //  React16.3中创建Ref的方法
+    this.myRef = React.createRef();
+  }
+  componentDidMount() {
+    setTimeout(() => {
+    // 提供了current属性，用于引用render后的节点
+    // render之后就可以输出该ref指向的那个节点
+      this.myRef.current.value = "userName";
+    }, 1500);
+  }
+  render() {
+    return [
+      <div className="App" key='a'>
+        <input ref={this.myRef}/>
+      </div>
+    ];
+  }
+}
+
+```
+> 1、此外，同样的Ref所指向的节点可以是dom节点，也可以是类组件。  
+> 2、Ref属性指向的节点不能是函数组件：因为通过ref获得的组件，包含了声明周期和state，因此ref所指向的组件不可以是函数组件。
+
+###### React.forwardRef()的使用：
+refs在子组件的引用上，增加属性ref，那么这个ref仅仅指向的是子组件，而不能知道子组件中的dom节点  
+通过React16.3中的Forwarding refs可以使得在父组件中可以得到子组件中的dom节点。
+
+```
+
+const TargetCom = React.forwardRef((props, ref) => (
+  <input type="text" ref={ref} />
+));
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      this.myRef.current.value = "123";
+      console.log(this.myRef.current); // input
+    }, 1500);
+  }
+  render() 
+    return [
+      <div className="App" key='a'>
+        <TargetCom ref={this.myRef} />
+      </div>
+    ];
+  }
+}
+
+```
+
+以`React.unstable_AsyncMode` 取代 `React.unstable_AsyncComponent`

@@ -1,68 +1,42 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### React 16新特性
+#### 1. 16.0.0 (2017.9.26)
 
-## Available Scripts
+组件现在可以从render返回数组和字符串,这一特性已经可以减少不必要节点嵌套 
+```
+render(){
+    return [<div>1</div>, <span>2</span>]
+    // or return '123'
+}
+```
 
-In the project directory, you can run:
+在React 16里面，我们可以给DOM  添加自定义属性：
+```
+    // your code
+    <div mycustomattribute="something">
+    
+    //React 15 output:
+    <div />
+    
+    //React 16 output:
+    <div mycustomattribute="something">
+```
 
-### `npm start`
+setState回调(第二个参数)现在在componentDidMount / componentDidUpdate之后立即触发，而不是在所有组件呈现之后。
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### 16.2.0 (2017.11.28)
+添加Fragment,React 中一个常见模式是为一个组件返回多个元素。Fragment 可以让你聚合一个子元素列表，并且不在DOM中增加额外节点。
+```
+render() {
+    return (
+        //  如果不加 Fragment 会报这样的错误：JSX elements must be wrapped in an enclosing tag. 
+        <Fragment>
+            <ChildA />
+            <ChildB />
+            <ChildC />
+        <Fragment/>
+    );
+}
+```
+Fragment可以简写成<></>,<></> 语法不能接受键值或属性。
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+#### 16.3.0 (2018.3.29)

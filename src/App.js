@@ -26,6 +26,12 @@ class App extends Component {
       console.log(this.comA.target);
     }, 1500);
   }
+  overHandler = (e) => {
+    console.log('overHandler--->', e)
+  }
+  enter = (e) => {
+    console.log('enter--->', e)
+  }
   render() {
     console.log("React--->", React);
     return [
@@ -52,6 +58,7 @@ class App extends Component {
             </React.Fragment>
           ))}
           <TestJsxCom />
+          <div onPointerOver={this.overHandler} onPointerEnter={this.enter} altKey={111}>Pointer Api</div>
         </header>
       </div>
     ];

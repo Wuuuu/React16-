@@ -104,3 +104,11 @@ class App extends Component {
 ```
 
 以`React.unstable_AsyncMode` 取代 `React.unstable_AsyncComponent`
+
+#### 16.4.0（2018.5.23）
+
+1、Pointer Events  
+Pointer Events api
+>Pointer Events API 是Hmtl5的事件规范之一，它主要目的是用来将鼠标（Mouse）、触摸（touch)和触控笔（pen）三种事件整合为统一的API
+
+在web页面复用在多种设备下的情况下， Pointer Events整合了mouse, touch, pen的触摸事件， 使其能在多种设备上触发，我们无需对各种类型的事件区分对待，更高的提高了开发效率， 但是目前浏览器的支持条件不容乐观

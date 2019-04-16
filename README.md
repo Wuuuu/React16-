@@ -112,3 +112,108 @@ Pointer Events api
 >Pointer Events API 是Hmtl5的事件规范之一，它主要目的是用来将鼠标（Mouse）、触摸（touch)和触控笔（pen）三种事件整合为统一的API
 
 在web页面复用在多种设备下的情况下， Pointer Events整合了mouse, touch, pen的触摸事件， 使其能在多种设备上触发，我们无需对各种类型的事件区分对待，更高的提高了开发效率， 但是目前浏览器的支持条件不容乐观
+
+#### 16.6.0（2018.10.23）
+
+* React.memo()
+* React.lazy()
+* static contextType()
+* static getDerivedStateFromError()
+* 
+#### React.memo()
+React.memo() 是能作用在简单的函数组件，类似于React.PureComponent对于class组件的作用。它本质上是一个高阶函数，达到的效果就是，自动帮组件执行shouldComponentUpdate() , 但是只是执行浅比较
+
+使用方式就像高阶函数一样，包装了一层，如下：
+```
+const MemoizedComponent = React.memo(function MyComponent(props) {
+  //_ only rerenders if props change_
+});
+ 
+// for arrow functions
+const OtherMemoized = React.memo(props => {
+    return <div> Memoized Component </div>
+}
+```
+也能包装已经存在的函数，如下：
+```
+const MyComponent = props => <div> This is memorable!! </div>
+ 
+const Memoized = React.memo(MyComponent)
+```
+
+>这个高阶函数存在是作为一种性能优化的方式。不要使用它去纯粹地阻止渲染，否则可能会导致出现bug
+
+
+#### React.lazy() and Suspense
+
+通过这个API，我们就可以达到代码分割的效果。代码分割是允许我们去延迟加载我们的import，意味着我们在渲染当前页面的时候去提升当前页面的性能，提高渲染速度。
+
+#### React.lazy()
+
+React.lazy()允许我们去动态的加载组件。
+
+以前：
+```
+import AComponent from './AComponent';
+import BComponent from './BComponent';
+ 
+function MyComponent(bool) {
+  return (
+    <div>
+      {bool?<AComponent />:<BComponent />}
+    </div>
+  );
+}
+```
+
+现在:
+```
+function MyComponent(bool) {
+    let Component;
+    if(bool){
+       Component = React.lazy(() => import('./AComponent'));
+    }else{
+       Component = React.lazy(() => import('./BComponent'));
+    }
+  return (
+    <div>
+      <Component />
+    </div>
+  );
+}
+```
+
+#### Suspense
+如果OtherComponent没有被加载成功，我可以通过使用Suspense这个组件的参数fallback参数来显示一些类似于加载中的提示内容。
+```
+const OtherComponent = React.lazy(() => import('./OtherComponent'));
+ 
+function MyComponent() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <OtherComponent />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+>Suspense组件中可以包裹多个动态加载的组件，这样统一管理，非常的方便。
+```
+const OtherComponent = React.lazy(() => import('./OtherComponent'));
+const AnotherComponent = React.lazy(() => import('./AnotherComponent'));
+ 
+function MyComponent() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <section>
+          <OtherComponent />
+          <AnotherComponent />
+        </section>
+      </Suspense>
+    </div>
+  );
+}
+```

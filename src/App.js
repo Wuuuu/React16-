@@ -3,11 +3,12 @@ import logo from "./logo.svg";
 import TestJsxCom from "./test.js";
 import OtherComponent from "./FnCom";
 import Memoized from "./Memo";
+import ErrorBoundary from "./Error";
 
 import "./App.css";
 
 const SusComponent = React.lazy(() => import("./Memo"));
-
+const MyContext = React.createContext();
 const TargetCom = React.forwardRef((props, ref) => (
   <input type="text" ref={ref} />
 ));
@@ -27,6 +28,8 @@ class App extends Component {
       this.myRef.current.value = "wuyaoke";
       console.log(this.comA.target);
     }, 1500);
+    let value = this.context;
+    console.log('value----->', value)
   }
   overHandler = e => {
     console.log("overHandler--->", e);
@@ -36,7 +39,8 @@ class App extends Component {
   };
   render() {
     console.log("React--->", React);
-
+    let value = this.context;
+    console.log("render ---value--->", value);
     return [
       <div className="App" key="a">
         <header className="App-header">
@@ -66,6 +70,10 @@ class App extends Component {
             </React.Fragment>
           ))}
           <TestJsxCom />
+          <ErrorBoundary>
+            <div>11111111111111</div>
+            <span>1222 </span>
+          </ErrorBoundary>
           <Memoized
             name="test"
             handleClick={() => {

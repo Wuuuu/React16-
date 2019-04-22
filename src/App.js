@@ -8,6 +8,7 @@ import ErrorBoundary from "./Error";
 import "./App.css";
 
 const SusComponent = React.lazy(() => import("./Memo"));
+const HooksDemo = React.lazy(() => import("./Hooks"));
 const MyContext = React.createContext();
 const TargetCom = React.forwardRef((props, ref) => (
   <input type="text" ref={ref} />
@@ -52,6 +53,7 @@ class App extends Component {
           <div>
             <Suspense fallback={<div>Loading...</div>}>
               <SusComponent />
+              <HooksDemo />
             </Suspense>
           </div>
           <a

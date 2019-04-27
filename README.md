@@ -217,3 +217,60 @@ function MyComponent() {
   );
 }
 ```
+
+#### 16.8.0（2019.2.6）
+>有了Hooks，再也不用纠结写Class组件还是Function组件了，也不用担心生命周期钩子函数了。也可以不再使用this了。
+
+我们都知道react的核心思想就是将一个页面拆成一堆独立的，可复用的组件，并且用自上而下的单向数据流的形式将这些组件串联起来。但如果你在大型的工作项目中用react，你会发现你的项目中实际上很多react组件冗长切难以服用。尤其是那些写成class的组件，它们本身包含了状态（state），所以服用这类组件变得很麻烦。
+
+```
+import { userState } from 'react';
+
+const [ count, setCount ] = userState(0)
+```
+##### 假如一个组件有多个状态值怎么办？
+首先，useState是可以多次调用的，所以我们可以这样写：
+```
+const [ count, setCount ] = useState(0);
+const [ userInfo, ChangeUserInfo ] = useState({ name: 'hooks', version: '16.8.0'})
+```
+
+##### 什么是Effect Hooks?
+
+类似于componentDidMount 和 componentDidUpdate;
+我们写的有状态组件，通常会产生很多的副作用（side effect），比如发起ajax请求获取数据，添加一些监听的注册和取消注册，手动修改dom等等。我们之前都把这些副作用的函数写在生命周期函数钩子里，比如componentDidMount，componentDidUpdate和componentWillUnmount。而现在的useEffect就相当与这些声明周期函数钩子的集合体。它以一抵三。
+
+我们再看下面代码的逻辑：
+```
+function Example() {
+    const [count, setCount] = useState(0);
+    
+    useEffect(() => {
+        doucument.title="you click ${count} times"
+    })
+}
+```
+首先，我们声明了一个状态变量 count，将它的初始值设为0。然后我们告诉react，我们的这个组件有一个副作用。我们给 useEffecthook传了一个匿名函数，这个匿名函数就是我们的副作用。在这个例子里，我们的副作用是调用browser API来修改文档标题。当react要渲染我们的组件时，它会先记住我们用到的副作用。等react更新了DOM之后，它再依次执行我们定义的副作用函数。
+>这里要注意几点：
+>
+>第一，react首次渲染和之后的每次渲染都会调用一遍传给useEffect的函数。而之前我>们要用两个声明周期函数来分别表示首次渲染（componentDidMount），和之后的更新>导致的重新渲染（componentDidUpdate）。
+>
+>第二，useEffect中定义的副作用函数的执行不会阻碍浏览器更新视图，也就是说这些>函数是异步执行的，而之前的componentDidMount或componentDidUpdate中的代码则是同步执行的。这种安排对大多数副作用说都是合理的，但有的情况除外，比如我们有时候需要先根据DOM计算出某个元素的尺寸再重新渲染，这时候我们希望这次重新渲染是同步发生的，也就是说它会在浏览器真的去绘制这个页面前发生。
+
+怎么跳过一些不必要的副作用函数
+
+按照上一节的思路，每次重新渲染都要执行一遍这些副作用函数，显然是不经济的。怎么跳过一些不必要的计算呢？我们只需要给useEffect传第二个参数即可。用第二个参数来告诉react只有当这个参数的值发生改变时，才执行我们传的副作用函数（第一个参数）。
+```
+useEffect(() => {
+    document.title = `you clicked${count} times`
+}, [count])
+```
+##### 还有哪些自带的Effect Hooks?
+* useContext
+* useReducer
+* useCallback
+* useMemo
+* useRef
+* useImperativeMethods
+* useMutationEffect
+* useLayoutEffect

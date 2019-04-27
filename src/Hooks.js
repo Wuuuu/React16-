@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function HooksExample (){
   const [count, setCount] = useState(0);
   const [userInfo, ChangeUserInfo] = useState({name: 'hooks', version: '16.8.0'});
+  useEffect(()=> {
+    document.title = `you click ${count} times`;
+  },[userInfo])
+  console.log('111111')
   return (
     <div>
       <p>你点击了{count}次</p>

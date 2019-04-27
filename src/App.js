@@ -1,4 +1,5 @@
 import React, { Suspense, Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import logo from "./logo.svg";
 import TestJsxCom from "./test.js";
 import OtherComponent from "./FnCom";
@@ -26,11 +27,11 @@ class App extends Component {
   componentDidMount() {
     console.log("App");
     setTimeout(() => {
-      this.myRef.current.value = "wuyaoke";
-      console.log(this.comA.target);
+      // this.myRef.current.value = "wuyaoke";
+      // console.log(this.comA.target);
     }, 1500);
     let value = this.context;
-    console.log('value----->', value)
+    console.log("value----->", value);
   }
   overHandler = e => {
     console.log("overHandler--->", e);
@@ -42,7 +43,12 @@ class App extends Component {
     console.log("React--->", React);
     let value = this.context;
     console.log("render ---value--->", value);
-    return [
+    return (
+      // <Router>
+      //   {/* <Link to="/about/">About</Link> */}
+      //   <Route path="/" component={OtherComponent} />
+      //   <Route path="/about/" component={TestJsxCom} />
+      // </Router>
       <div className="App" key="a">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
@@ -91,7 +97,7 @@ class App extends Component {
           </div>
         </header>
       </div>
-    ];
+    );
   }
 }
 

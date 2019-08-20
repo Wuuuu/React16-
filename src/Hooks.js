@@ -1,21 +1,39 @@
 import React, { useState, useEffect } from "react";
 
-export default function HooksExample (){
+export default function HooksExample() {
   const [count, setCount] = useState(0);
-  const [userInfo, ChangeUserInfo] = useState({name: 'hooks', version: '16.8.0'});
-  useEffect(()=> {
+  const [userInfo, ChangeUserInfo] = useState({
+    name: "hooks",
+    version: "16.8.0"
+  });
+  const ref1 = React.useRef(null);
+  useEffect(() => {
     document.title = `you click ${count} times`;
-  },[userInfo])
-  console.log('111111')
+  }, [userInfo]);
+
   return (
     <div>
       <p>你点击了{count}次</p>
+      <div>
+        <input ref={ref1} type="text" />
+        <button
+          onClick={() => {
+            ref1.current.focus();
+          }}
+        >
+          1111
+        </button>
+      </div>
       <p>
-          名字为：{userInfo.name}
-          版本号：{userInfo.version}
+        名字为：{userInfo.name}
+        版本号：{userInfo.version}
       </p>
       <button onClick={() => setCount(count + 1)}>点击</button>
-      <button onClick={() => ChangeUserInfo({name: 'React', version: '10086'})}>改变信息</button>
+      <button
+        onClick={() => ChangeUserInfo({ name: "React", version: "10086" })}
+      >
+        改变信息
+      </button>
     </div>
   );
 }
